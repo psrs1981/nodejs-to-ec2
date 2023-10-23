@@ -24,7 +24,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: PULL IMAGE FROM DOCKER HUB
-        run: docker pull psrs1981/nodejs-to-ec2:latest
+        run: docker pull psrs1981/nodejs-to-ec2
       - name: DELETE EXISTING CONTAINER
         run: docker rm -f nodejs-to-ec2-container
       - name: RUN DOCKER CONTAINER
