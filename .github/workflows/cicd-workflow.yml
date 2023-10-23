@@ -1,0 +1,30 @@
+name: CICD
+
+on:
+  push: 
+    branches: [main]
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: CHECKOUT SOURCE
+        uses: actions/checkout@v3
+      - name:  LOGIN TO DOCKER HUB
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: BUILD DOCKER Image
+        run: Docker build -t intigrationninjas/nodejs-to-ec2 .
+      - PUBLISH IMAGE TO DOCKER HUB
+        run: docker push intigrationninjas/nodejs-to-ec2:latest
+
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: PULL IMAGE FROM DOCKER HUB
+        run: docker pull intigrationninjas/nodejs-to-ec2:latest
+      - name: DELETE EXISTING CONTAINER
+        run: docker rm -f nodejs-to-ec2-container
+      - name: RUN DOCKER CONTAINER
+        run: docker run -d -p 3000:3000 nodejs-to-ec2-container ntigrationninjas/nodejs-to-ec2
+
+
