@@ -15,7 +15,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: BUILD DOCKER Image
-        run: Docker build -t psrs1981/nodejs-to-ec2 .
+        run: docker build -t psrs1981/nodejs-to-ec2 .
       - name: PUBLISH IMAGE TO DOCKER HUB
         run: docker push psrs1981/nodejs-to-ec2:latest
 
